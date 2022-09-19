@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="module" crossorigin src="/assets/index.1ee5b369.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <div v-if="!step2" class="step1">
+      <input @vue:mounted="$el.focus()" class="barcode" pattern="\d*" type="text" @input="fetchStep1" v-model="barcode">
+      <button class="fetch1" @click="fetchStep1">Отправить</button>
+      <p class="err1" v-if="data.error !== 0">{{data.error}}</p>
+      <p class="saved" v-if="data2.status !== undefined" >Сохранено:<br/> {{data2.name}}}</p>
+    </div>
+    <div v-else class="step2">
+      <p class="name">{{data.name}}</p>
+      <div class="cost">
+        <p>Цена 1: {{data.cost1}}</p>
+        <p>Цена 2: {{data.cost2}}</p>
+      </div>
+      <div class="amount">
+        <p>Кол-во 1: {{data.amount1}}</p>
+        <p>Кол-во 2: {{data.amount2}}</p>
+      </div>
+      <div>
+        Введите количество #3
+        <input class="amount3" :placeholder="data.amount3" v-model="amount3">
+        <div class="amount-input">
+          <button class="amount-btn" @click="addNumber('1')">1</button>
+          <button class="amount-btn" @click="addNumber('2')">2</button>
+          <button class="amount-btn" @click="addNumber('3')">3</button>
+          <button class="amount-btn" @click="addNumber('4')">4</button>
+          <button class="amount-btn" @click="addNumber('5')">5</button>
+          <button class="amount-btn" @click="addNumber('6')">6</button>
+          <button class="amount-btn" @click="addNumber('7')">7</button>
+          <button class="amount-btn" @click="addNumber('8')">8</button>
+          <button class="amount-btn" @click="addNumber('9')">9</button>
+          <button class="amount-btn" @click="addNumber('-')">-</button>
+          <button class="amount-btn" @click="addNumber('0')">0</button>
+          <button class="amount-btn" @click="clear">C</button>
+          <button class="amount-btn" @click="addNumber('.')">.</button>
+        </div>
+        <button class="fetch2" @click="fetchStep2" class="rounded-lg h-12 bg-blue-500 text-white text-2xl">Отправить</button>
+      </div>
+    </div>
+  </div>
+  
+  
+</body>
+<style>
+  html, body {
+    font-family: 'Arial', sans-serif;
+  }
+  .wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-inline: 8px;
+  }
+  .step1 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+  .barcode {
+    height: 56px;
+    font-size: 42px;
+    border-color: rgb(96 165 250);
+    border-radius: 8px;
+    text-align: center;
+    appearance: none;
+  }
+  .fetch1,.fetch2 {
+    height: 36px;
+    font-size: 18px;
+    padding: 4px;
+    line-height: 1;
+    background: rgb(96 165 250);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    width: 100%;
+  }
+  .name {
+    text-align: center;
+    font-size: 24px;
+    margin: 0;
+  }
+  .cost, .amount {
+    display: flex;
+    justify-content: space-between;
+  }
+  .amount3 {
+    height: 56px;
+    font-size: 48px;
+    border: 1px solid;
+    border-color: rgb(96 165 250);
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  .amount3::placeholder {
+    color: rgb(156 163 175);
+  }
+  .amount-input {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .amount-btn {
+    border: none;
+    background: rgb(96 165 250);
+    color: white;
+    font-size: 24px;
+    border-radius: 8px;
+  }
+  .err1 {
+    font-size: 28px;
+    color: rgb(248 113 113);
+    text-align: center;
+  }
+  .saved {
+    font-size: 28px;
+    color: rgb(96 165 250);
+    text-align: center;
+  }
+</style>
+</html>
