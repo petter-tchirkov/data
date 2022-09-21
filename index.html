@@ -11,7 +11,7 @@
     <div v-if="!step2" class="step1">
       <p class="err1" v-if="data.error !== 0">{{data.error}}</p>
       <p class="saved" v-if="data2.status !== undefined" >Сохранено:<br/> {{data2.name}}}</p>
-      <input inputmode="none" @vue:mounted="$el.focus()" class="barcode" pattern="\d*" type="text" @input="fetchStep1" v-model="barcode">
+      <input @vue:mounted="setInputFocus" class="barcode" pattern="\d*" type="text" @input="fetchStep1" v-model="barcode">
       <div class="amount-input">
         <button class="amount-btn" @click="addFirstNumber('1')">1</button>
         <button class="amount-btn" @click="addFirstNumber('2')">2</button>
@@ -99,6 +99,13 @@
             this.step2 = true
           }
       },
+      setInputFocus() {
+        let input = document.querySelector('.barcode');
+        input.readOnly = true;
+        input.focus();
+        setTimeout(function(){document.querySelector('.barcode').readOnly = false}, 100)
+      },
+
       addFirstNumber(num){
         this.barcode = this.barcode + num
       },
@@ -177,7 +184,7 @@
     border-color: rgb(96 165 250);
     border-radius: 8px;
     text-align: center;
-    appearance: none;
+    pointer-events: none;
   }
   .fetch1,.fetch2 {
     font-size: 18px;
