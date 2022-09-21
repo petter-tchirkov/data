@@ -11,7 +11,7 @@
     <div v-if="!step2" class="step1">
       <p class="err1" v-if="data.error !== 0">{{data.error}}</p>
       <p class="saved" v-if="data2.status !== undefined" >Сохранено:<br/> {{data2.name}}}</p>
-      <input @vue:mounted="$el.focus()" class="barcode" pattern="\d*" type="text" @input="fetchStep1" v-model="barcode">
+      <input @vue:mounted="setInputFocus" class="barcode" pattern="\d*" type="text" @input="fetchStep1" v-model="barcode">
       <div class="amount-input">
         <button class="amount-btn" @click="addFirstNumber('1')">1</button>
         <button class="amount-btn" @click="addFirstNumber('2')">2</button>
@@ -30,7 +30,7 @@
       <button class="fetch1" @click="fetchStep1">Отправить</button>
     </div>
     <div v-else class="step2">
-        <button class="back-btn" @click="step2 = false">Назад</button>
+        <button class="back-btn" @click="handleBackBtn">Назад</button>
         <p class="name">{{data.name}}</p>
       <div class="cost">
         <span>Цена 1: {{data.cost1}}</span>
@@ -75,13 +75,6 @@
       changed: false,
       defaultAmount3: null,
 
-      setInputFocus() {
-        input = document.querySelector('.barcode');
-        input.readOnly = true;
-        input.focus();
-        setTimeout(function(){document.querySelector('.barcode').readOnly = false}
-      },
-
       async fetchStep1() {
           const response = await fetch('http://23.97.190.5/1c2/hs/tsd', {
             method: 'POST',
@@ -106,6 +99,18 @@
             this.step2 = true
           }
       },
+      handleBackBtn() {
+        this.step2 = false; 
+        this.barcode = '';
+        this.barcode.focus()
+      },
+      setInputFocus() {
+        let input = document.querySelector('.barcode');
+        input.readOnly = true;
+        input.focus();
+        setTimeout(function(){document.querySelector('.barcode').readOnly = false}, 100)
+      },
+
       addFirstNumber(num){
         this.barcode = this.barcode + num
       },

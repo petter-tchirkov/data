@@ -30,7 +30,7 @@
       <button class="fetch1" @click="fetchStep1">Отправить</button>
     </div>
     <div v-else class="step2">
-        <button class="back-btn" @click="step2 = false">Назад</button>
+        <button class="back-btn" @click="handleBackBtn">Назад</button>
         <p class="name">{{data.name}}</p>
       <div class="cost">
         <span>Цена 1: {{data.cost1}}</span>
@@ -99,6 +99,11 @@
             this.step2 = true
           }
       },
+      handleBackBtn() {
+        this.step2 = false; 
+        this.barcode = '';
+        this.barcode.focus()
+      },
       setInputFocus() {
         let input = document.querySelector('.barcode');
         input.readOnly = true;
@@ -125,7 +130,8 @@
         this.data.amount3 = `-${this.data.amount3}`
       },
       clearFirst(){
-        this.barcode = ''
+        this.barcode = '';
+        this.setInputFocus()
       },
       clear(){
         this.data.amount3 = this.defaultAmount3
